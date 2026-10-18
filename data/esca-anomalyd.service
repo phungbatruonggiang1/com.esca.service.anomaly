@@ -1,0 +1,17 @@
+[Unit]
+Description=ESCA anomalous sound detection
+Requires=dbus.socket
+After=dbus.socket esca-audiod.service network-online.target
+Wants=network-online.target
+
+[Service]
+Type=dbus
+BusName=vn.sparc.esca.Anomaly1
+EnvironmentFile=-/etc/esca/anomaly.conf
+ExecStart=/usr/sbin/esca-anomalyd --server ${ESCA_SERVER}
+Restart=on-failure
+RestartSec=5
+User=root
+
+[Install]
+WantedBy=multi-user.target
